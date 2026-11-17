@@ -115,7 +115,7 @@ function FeaturedCarousel({ events }) {
                     <div className="flex items-center gap-5 pt-2 text-xs sm:text-sm text-stone-300 font-medium flex-wrap">
                       <span className="flex items-center gap-1.5 text-orange-300 font-semibold">
                         <Calendar className="w-4 h-4" />
-                        {/* {formatEventDate(event.startDate)} */}
+                      
                         {formatEventDate(event.startDate)}
                       </span>
 
@@ -125,7 +125,7 @@ function FeaturedCarousel({ events }) {
                       </span>
 
                       <span className="flex items-center gap-1.5 font-bold text-white bg-white/10 px-2.5 py-1 rounded-lg border border-white/10">
-                        {/* {formatPrice(event.price, event.currency)} */}
+                
                         {formatPrice(event.price, event.currency)}
                       </span>
                     </div>
@@ -177,18 +177,7 @@ function FeaturedCarousel({ events }) {
       </button>
 
       <div className="absolute bottom-4 right-6 flex items-center gap-2 z-20">
-        {/* {events.map((_, i) => (
-
-          <button
-            key={i}
-            onClick={() => scrollTo(i)}
-            className={`transition-all rounded-full ${
-              i === selectedIndex
-                ? "w-6 h-2 bg-[#E65100]"
-                : "w-2 h-2 bg-white/50 hover:bg-white/80"
-            }`}
-          />
-        ))} */}
+     
 
         {events.map((_, i) => {
           return (
