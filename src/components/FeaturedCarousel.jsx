@@ -12,9 +12,10 @@ import {
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { Link } from "react-router";
+import { formatEventDate, formatPrice } from "@/lib/utils";
 function FeaturedCarousel({ events }) {
   const [selectedIndex, setSelectedIndex] = useState(0);
-  
+
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
     Autoplay({
       delay: 4000,
@@ -31,19 +32,19 @@ function FeaturedCarousel({ events }) {
   const goToNext = () => {
     emblaApi?.scrollNext();
     emblaApi.plugins().autoplay.reset();
-    
   };
 
   // scroll on selected button function
-  const scrollTo =(i) => {
+  const scrollTo = (i) => {
     // console.log(i);
-    emblaApi.scrollTo(i)
-  }
-  
+    emblaApi.scrollTo(i);
+  };
 
   useEffect(() => {
     if (!emblaApi) return;
-    emblaApi.on("select",() =>setSelectedIndex(emblaApi.selectedScrollSnap()))
+    emblaApi.on("select", () =>
+      setSelectedIndex(emblaApi.selectedScrollSnap()),
+    );
   }, [emblaApi]);
 
   return (
@@ -115,7 +116,7 @@ function FeaturedCarousel({ events }) {
                       <span className="flex items-center gap-1.5 text-orange-300 font-semibold">
                         <Calendar className="w-4 h-4" />
                         {/* {formatEventDate(event.startDate)} */}
-                        {event.startDate}
+                        {formatEventDate(event.startDate)}
                       </span>
 
                       <span className="flex items-center gap-1.5 text-stone-300">
@@ -125,7 +126,7 @@ function FeaturedCarousel({ events }) {
 
                       <span className="flex items-center gap-1.5 font-bold text-white bg-white/10 px-2.5 py-1 rounded-lg border border-white/10">
                         {/* {formatPrice(event.price, event.currency)} */}
-                        {event.price}
+                        {formatPrice(event.price, event.currency)}
                       </span>
                     </div>
 
@@ -167,7 +168,7 @@ function FeaturedCarousel({ events }) {
       </button>
 
       <button
-        onClick={goToNext }
+        onClick={goToNext}
         // onMouseOver={() => { emblaApi.plugins().autoplay.stop();}}
         aria-label="Next slide"
         className="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/80 hover:bg-white text-stone-800 shadow-md flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 z-20 cursor-pointer backdrop-blur-sm"
@@ -193,9 +194,9 @@ function FeaturedCarousel({ events }) {
           return (
             <button
               key={i}
-              onClick={()=> scrollTo(i)}
+              onClick={() => scrollTo(i)}
               className={`transition-all rounded-full ${
-                i=== selectedIndex
+                i === selectedIndex
                   ? "w-6 h-2 bg-[#E65100]"
                   : "w-2 h-2 bg-white/50 hover:bg-white/80"
               }`}
