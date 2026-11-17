@@ -107,8 +107,8 @@ function Navbar() {
           </Link>
           <button
             onClick={() => setIsMobileMenuOpen((prev) => !prev)}
-            className="p-2 rounded-xl text-stone-700 hover:bg-black/5"
-          >
+            className="p-2 rounded-xl text-stone-700 hover:bg-black/5" 
+          > 
             {IsMobileMenuOpen ? (
               <X className="w-6 h-6" />
             ) : (

@@ -1,16 +1,46 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
-import { ArrowRight, Calendar, ChevronLeft, ChevronRight, MapPin, Sparkles } from "lucide-react";
+import {
+  ArrowRight,
+  Calendar,
+  ChevronLeft,
+  ChevronRight,
+  MapPin,
+  Sparkles,
+} from "lucide-react";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { Link } from "react-router";
 function FeaturedCarousel({ events }) {
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
+    Autoplay({
+      delay: 4000,
+      stopOnInteraction: false,
+      stopOnMouseEnter: true,
+      rootNode: (emblaRoot) => emblaRoot.parentElement,
+    }),
+  ]);
 
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay()]);
+  const goToPrev = () => {
+    emblaApi?.scrollPrev();
+    emblaApi.plugins().autoplay.reset();
+  };
+  const goToNext = () => {
+    emblaApi?.scrollNext();
+    emblaApi.plugins().autoplay.reset();
+    
+  };
 
-  const goToPrev = () => emblaApi?.scrollPrev();
-  const goToNext = () => emblaApi?.scrollNext();
+  // scroll on selected button function
+
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    emblaApi.on("select",() =>setSelectedIndex(emblaApi.selectedScrollSnap()))
+  }, [emblaApi]);
 
   return (
     <div className="relative group">
@@ -125,6 +155,7 @@ function FeaturedCarousel({ events }) {
 
       <button
         onClick={goToPrev}
+        // onMouseOver={() => {emblaApi.plugins().autoplay.stop();}}
         aria-label="Previous slide"
         className="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/80 hover:bg-white text-stone-800 shadow-md flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 z-20 cursor-pointer backdrop-blur-sm"
       >
@@ -132,12 +163,41 @@ function FeaturedCarousel({ events }) {
       </button>
 
       <button
-        onClick={goToNext}
+        onClick={goToNext }
+        // onMouseOver={() => { emblaApi.plugins().autoplay.stop();}}
         aria-label="Next slide"
         className="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/80 hover:bg-white text-stone-800 shadow-md flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 z-20 cursor-pointer backdrop-blur-sm"
       >
         <ChevronRight className="w-6 h-6" />
       </button>
+
+      <div className="absolute bottom-4 right-6 flex items-center gap-2 z-20">
+        {/* {events.map((_, i) => (
+
+          <button
+            key={i}
+            onClick={() => scrollTo(i)}
+            className={`transition-all rounded-full ${
+              i === selectedIndex
+                ? "w-6 h-2 bg-[#E65100]"
+                : "w-2 h-2 bg-white/50 hover:bg-white/80"
+            }`}
+          />
+        ))} */}
+
+        {events.map((_, index) => {
+          return (
+            <button
+              key={index}
+              className={`transition-all rounded-full ${
+                index=== selectedIndex
+                  ? "w-6 h-2 bg-[#E65100]"
+                  : "w-2 h-2 bg-white/50 hover:bg-white/80"
+              }`}
+            ></button>
+          );
+        })}
+      </div>
     </div>
   );
 }

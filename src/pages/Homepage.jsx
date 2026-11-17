@@ -12,8 +12,8 @@ function Homepage() {
 
   useEffect(() => {
     async function getFeaturedEvents(params) {
+      setIsloading(true)
       try {
-        setIsloading(true)
         let {
           data: { data },
         } = await axios.get(
@@ -21,8 +21,10 @@ function Homepage() {
         );
         console.log(data);
         setFeaturesEvents(data);
-        setIsloading(false)
-      } catch (error) {}
+      
+      } catch (error) {} finally{
+  setIsloading(false)
+      }
     }
     getFeaturedEvents();
   }, []);
