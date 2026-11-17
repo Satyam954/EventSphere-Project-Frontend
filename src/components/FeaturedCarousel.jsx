@@ -35,7 +35,11 @@ function FeaturedCarousel({ events }) {
   };
 
   // scroll on selected button function
-
+  const scrollTo =(i) => {
+    // console.log(i);
+    emblaApi.scrollTo(i)
+  }
+  
 
   useEffect(() => {
     if (!emblaApi) return;
@@ -185,12 +189,13 @@ function FeaturedCarousel({ events }) {
           />
         ))} */}
 
-        {events.map((_, index) => {
+        {events.map((_, i) => {
           return (
             <button
-              key={index}
+              key={i}
+              onClick={()=> scrollTo(i)}
               className={`transition-all rounded-full ${
-                index=== selectedIndex
+                i=== selectedIndex
                   ? "w-6 h-2 bg-[#E65100]"
                   : "w-2 h-2 bg-white/50 hover:bg-white/80"
               }`}
