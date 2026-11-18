@@ -19,4 +19,3 @@ export function formatEventDate(dateInput) {
 }
 
 
- 

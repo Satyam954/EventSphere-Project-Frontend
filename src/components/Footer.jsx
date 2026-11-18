@@ -1,10 +1,10 @@
-import { ShieldCheck, Sparkles } from 'lucide-react'
-import React from 'react'
-import { Link } from 'react-router'
+import { ShieldCheck, Sparkles } from "lucide-react";
+import React from "react";
+import { Link } from "react-router";
 
 function Footer() {
   return (
-     <footer className="bg-[#181816] text-[#E5E3DC] pt-16 pb-12 border-t border-[#2B2A27]">
+    <footer className="bg-[#181816] text-[#E5E3DC] pt-16 pb-12 border-t border-[#2B2A27]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-[#2C2B27]">
           <div className="lg:col-span-2 space-y-4">
@@ -140,7 +140,7 @@ function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }
 
-export default Footer
+export default Footer;

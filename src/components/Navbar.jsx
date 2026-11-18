@@ -5,7 +5,7 @@ import {
   Menu,
   PlusCircle,
   Search,
-  Sparkle,
+  Sparkles,
   User,
   X,
 } from "lucide-react";
@@ -14,15 +14,15 @@ import { Link } from "react-router";
 import { Button } from "./ui/button";
 function Navbar() {
   const [IsMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  console.log(IsMobileMenuOpen);
+  // console.log(IsMobileMenuOpen);
 
   return (
-    <div className="sticky top-0 z-4 w-full bg-[#FAF9F5]/90 backdrop-blur-md border-b border-[#EBE8DF]">
+    <div className="sticky top-0 z-40 w-full bg-[#FAF9F5]/90 backdrop-blur-md border-b border-[#EBE8DF]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-18">
         <div className="flex gap-3">
           <Link to="/" className="flex items-center gap-2.5 group">
             <div className="w-10 h-10 rounded-2xl bg-linear-to-tr from-[#E65100] to-[#FF8A65] flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform duration-200">
-              <Sparkle className="w-5 h-5" />
+              <Sparkles className="w-5 h-5" />
             </div>
             <div className="flex flex-col">
               <span className="font-bold text-lg tracking-tight text-[#111] leading-tight">
@@ -107,8 +107,8 @@ function Navbar() {
           </Link>
           <button
             onClick={() => setIsMobileMenuOpen((prev) => !prev)}
-            className="p-2 rounded-xl text-stone-700 hover:bg-black/5" 
-          > 
+            className="p-2 rounded-xl text-stone-700 hover:bg-black/5"
+          >
             {IsMobileMenuOpen ? (
               <X className="w-6 h-6" />
             ) : (
@@ -117,7 +117,7 @@ function Navbar() {
           </button>
         </div>
       </div>
-      
+
       {IsMobileMenuOpen && (
         <div className="md:hidden border-t  border-[#EBE8DF] bg-[#FAF9F5] px-4 pt-3 pb-6 space-y-4">
           <form action="" className="relative">
