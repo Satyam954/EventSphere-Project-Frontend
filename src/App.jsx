@@ -6,6 +6,8 @@ import NotFoundPage from "./pages/NotfoundPage";
 import { useEffect } from "react";
 import Navbar from "./components/common/Navbar";
 import EventDetailsPage from "./pages/EventDetailsPage";
+import { Toaster } from "sonner";
+import { Bold } from "lucide-react";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -28,6 +30,14 @@ function App() {
         </Routes>
       </div>
       <Footer />
+      <Toaster richColors   toastOptions={{
+         style: {
+           borderRadius: "1rem",
+           border: "1px solid #EBE8DF",
+           fontFamily: '"Plus Jakarta Sans", sans-serif',
+           fontSize: "13px",
+         },
+       }}/>
     </div>
   );
 }

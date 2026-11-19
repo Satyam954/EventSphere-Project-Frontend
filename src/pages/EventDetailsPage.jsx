@@ -1,15 +1,31 @@
-import { formatEventDate, formatEventTimeRange } from "@/lib/utils";
+import {
+  formatEventDate,
+  formatEventTimeRange,
+  formatPrice,
+  getDayRemaining,
+} from "@/lib/utils";
 import axios from "axios";
-import { Bookmark, Calendar, Clock,  MapPin,  Share2, Sparkles } from "lucide-react";
+import {
+  Bookmark,
+  Calendar,
+  Check,
+  Clock,
+  Map,
+  MapPin,
+  Share2,
+  ShieldCheck,
+  Sparkles,
+  Users,
+} from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router";
+import { toast } from "sonner";
 
-
-const Modes ={
-    "in-person" :"In-Person Gathering",
-    online :"Online-Conclave",
-    hybrid:"Hybrid Format",
-}
+const Modes = {
+  "in-person": "In-Person Gathering",
+  online: "Online-Conclave",
+  hybrid: "Hybrid Format",
+};
 
 function EventDetailsPage() {
   const { slug } = useParams();
@@ -32,7 +48,6 @@ function EventDetailsPage() {
         );
 
         setEvent(data);
-       
       } catch (error) {}
 
       setIsloading(false);
@@ -40,6 +55,11 @@ function EventDetailsPage() {
 
     fetchEvents();
   }, []);
+
+  function handleShare() {
+    navigator.clipboard.writeText(window.location.href)
+    toast.success("Event link copied to  clipboard ")
+  }
 
   if (isloading) {
     return (
@@ -72,6 +92,7 @@ function EventDetailsPage() {
 
         <div className="flex items-center gap-2">
           <button
+          onClick={handleShare}
             type="button"
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[#DDD9CE] bg-white hover:bg-stone-50 text-xs font-medium text-stone-700 transition-all cursor-pointer"
           >
@@ -108,14 +129,15 @@ function EventDetailsPage() {
               {event?.category?.name}
             </span>
             <span className="inline-flex items-center gap-1.5 whitespace-nowrap bg-[#EBF3ED] text-[#245436] border border-[#CFE2D4] text-xs px-2.5 py-1 rounded-full font-medium">
-             {/* {event?.format==="online" ? "Online Conclave" : event?.format==="in-person" ? "In-Person Gathering": "Hybrid Format" } */}
-             {
-                Modes[event.format]
-             }
+              {/* {event?.format==="online" ? "Online Conclave" : event?.format==="in-person" ? "In-Person Gathering": "Hybrid Format" } */}
+              {Modes[event.format]}
             </span>
             {event.featured && (
               <span className="inline-flex items-center gap-1.5 whitespace-nowrap bg-[#FFF3E0] text-[#B73E00] border border-[#FFE0B2] text-xs px-2.5 py-1 rounded-full font-medium">
-                <span><Sparkles/></span> Featured Pick
+                <span>
+                  <Sparkles />
+                </span>{" "}
+                Featured Pick
               </span>
             )}
           </div>
@@ -126,15 +148,24 @@ function EventDetailsPage() {
 
           <div className="flex items-center gap-4 text-xs sm:text-sm text-stone-200 pt-1 flex-wrap font-medium">
             <span className="flex items-center gap-1 text-orange-300 font-semibold">
-              <span><Calendar/></span> {formatEventDate(event?.startDate)}
+              <span>
+                <Calendar />
+              </span>{" "}
+              {formatEventDate(event?.startDate)}
             </span>
             <span>•</span>
             <span className="flex items-center gap-1">
-              <span><Clock/></span> {formatEventTimeRange(event.startDate,event.endDate)}
+              <span>
+                <Clock />
+              </span>{" "}
+              {formatEventTimeRange(event.startDate, event.endDate)}
             </span>
             <span>•</span>
             <span className="flex items-center gap-1">
-              <span><MapPin/></span> {event?.venue} , {event?.city}
+              <span>
+                <MapPin />
+              </span>{" "}
+              {event?.venue} , {event?.city}
             </span>
           </div>
         </div>
@@ -173,7 +204,7 @@ function EventDetailsPage() {
             <h3 className="text-lg font-bold text-stone-900">Venue & Access</h3>
             <div className="bg-[#FAF9F5] rounded-2xl p-4 border border-[#EAE7DC] flex items-start gap-3">
               <div className="w-10 h-10 rounded-xl bg-orange-100 text-[#C2410C] flex items-center justify-center shrink-0 text-lg">
-                📍
+                <MapPin />
               </div>
               <div>
                 <p className="font-bold text-sm text-stone-900">
@@ -363,13 +394,13 @@ function EventDetailsPage() {
                   Admission Pass
                 </span>
                 <div className="text-3xl font-extrabold text-stone-900 mt-0.5">
-                  ₹1,499
+                  {formatPrice(event.price, event.currency)}
                 </div>
               </div>
 
               <div className="text-right">
                 <span className="text-xs font-semibold px-2.5 py-1 bg-stone-100 text-stone-700 rounded-lg">
-                  11 days left
+                  {getDayRemaining(event.startDate)}
                 </span>
               </div>
             </div>
@@ -378,20 +409,20 @@ function EventDetailsPage() {
             <div className="space-y-2">
               <div className="flex justify-between text-xs text-stone-600">
                 <span className="flex items-center gap-1.5 font-medium">
-                  <span>👥</span> Capacity
+                  <span><Users className="w-4 h-4"/></span> Capacity
                 </span>
                 <span className="font-bold text-stone-900">
-                  85 of 100 seats filled
+                  {event.registeredCount} of{event.capacity} seats filled
                 </span>
               </div>
               <div className="w-full h-2 bg-stone-100 rounded-full overflow-hidden">
-                <div className="h-full bg-[#E65100] rounded-full transition-all w-[80%]" />
+                <div className="h-full bg-[#E65100] rounded-full transition-all w-[8%]" style={{width:`${Math.round((event?.registeredCount/event?.capacity)*100)}%`}} />
               </div>
               <p className="text-[11px] text-stone-400 text-right">
-                15 seats remaining
+             {event.capacity-event.registeredCount}  seats remaining
               </p>
             </div>
-
+              
             {/* Action Buttons */}
             <div className="space-y-2.5 pt-2">
               <button
@@ -405,20 +436,20 @@ function EventDetailsPage() {
                 type="button"
                 className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-medium h-10 px-4 py-2 border border-[#CCC8BA] bg-transparent hover:bg-[#F2F1EC] text-[#222] w-full"
               >
-                <span>📅</span> Add to My Schedule
+                <span><Calendar className="w-4 h-4"/></span> Add to My Schedule
               </button>
             </div>
 
             {/* Trust points */}
             <div className="pt-4 border-t border-[#F2EFE8] space-y-2 text-[11px] text-stone-500">
               <div className="flex items-center gap-2">
-                <span className="text-emerald-600">🛡️</span>
+                <span className="text-emerald-600"><ShieldCheck className="w-4 h-4"/></span>
                 <span>
                   Verified organizer & authentic attendee review policy
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-stone-400">✓</span>
+                <span className="text-stone-400"><Check className="w-4 h-4"/></span>
                 <span>Digital ticket QR sent to your email instantly</span>
               </div>
             </div>
