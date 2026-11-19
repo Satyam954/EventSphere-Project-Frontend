@@ -1,9 +1,10 @@
 import { Route, Routes, useLocation } from "react-router";
-import Footer from "./components/Footer";
-import Navbar from "./components/Navbar";
+import Footer from "./components/common/Footer";
+
 import Homepage from "./pages/Homepage";
 import NotFoundPage from "./pages/NotfoundPage";
 import { useEffect } from "react";
+import Navbar from "./components/common/Navbar";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
